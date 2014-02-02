@@ -25,7 +25,7 @@ public:
     allowCaching_ = false;
     printTimestamp_ = false;
     totalPings_ = -1;
-    startPingNumber_ = -1;
+    startPingNumber_ = 1;
     pingsSent_ = 0;
     pingsReceived_ = 0;
     pingInterval_ = getPingMinimumInterval();
@@ -127,7 +127,7 @@ public:
   }
 
   void
-  setStartPingNumber( uint64_t startPingNumber )
+  setStartPingNumber( int startPingNumber )
   {
     if (startPingNumber < 0)
       usage();
@@ -312,7 +312,7 @@ private:
   int totalPings_;
   int pingsSent_;
   int pingsReceived_;
-  uint64_t startPingNumber_;
+  int startPingNumber_;
   double pingInterval_;
   char* clientIdentifier_;
   char* programName_;
@@ -344,7 +344,7 @@ int main( int argc, char* argv[] )
         ndnTlvPing.setPingInterval(atof(optarg));
         break;
       case 'n'  :
-        ndnTlvPing.setStartPingNumber(atol(optarg));
+        ndnTlvPing.setStartPingNumber(atoi(optarg));
         break;
       case 'p'  :
         ndnTlvPing.setClientIdentifier(optarg);

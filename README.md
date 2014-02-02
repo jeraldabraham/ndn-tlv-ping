@@ -25,8 +25,9 @@ To run the following must be ensured(FOLLOW ORDER STRICTLY)
 
     git clone git://github.com/jeraldabraham/ndn-tlv-ping ndn-tlv-ping
     cd ndn-tlv-ping
-    make
-    sudo make install
+    ./waf configure 
+    ./waf
+    sudo ./waf install
 
 ## 2. Tool Run Instructions & Command Line Options: ##
 

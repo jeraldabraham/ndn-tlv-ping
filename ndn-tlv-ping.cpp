@@ -228,7 +228,7 @@ public:
       pingStatistics_.sentPings_++;
 
       //Perform Ping
-      uint64_t pingNumber;
+      int pingNumber;
       char pingNumberString[20];
       Name pingPacketName(prefix_);
 
@@ -237,13 +237,13 @@ public:
         pingPacketName.append(clientIdentifier_);
       std::memset(pingNumberString, 0, 20);
       if (startPingNumber_ < 0)
-        pingNumber = (uint64_t)std::rand();
+        pingNumber = (int)std::rand();
       else
         {
           pingNumber = startPingNumber_;
           startPingNumber_++;
         }
-      sprintf(pingNumberString, "%ld", pingNumber);
+      sprintf(pingNumberString, "%d", pingNumber);
       pingPacketName.append(pingNumberString);
 
       ndn::Interest interest(pingPacketName);

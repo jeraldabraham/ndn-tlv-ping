@@ -31,7 +31,13 @@ To run the following must be ensured(FOLLOW ORDER STRICTLY)
 
 ## 2. Tool Run Instructions & Command Line Options: ##
 
-    Usage: ndn-tlv-ping ndnx:/name/prefix [options]
+    Usage: ndnpingserver ndnx:/name/prefix [options]
+    Starts a NDN ping server that responds to Interests with name ndnx:/name/prefix/ping/number.
+        [-x freshness] - set FreshnessSeconds
+        [-h] - print this message and exit
+
+
+    Usage: ndnping ndnx:/name/prefix [options]
     Ping a NDN name prefix using Interests with namendnx:/name/prefix/ping/number.
     The numbers in the Interests are randomly generated unless specified.
         [-i interval] - set ping interval in seconds (minimum 1 second)
@@ -40,12 +46,6 @@ To run the following must be ensured(FOLLOW ORDER STRICTLY)
         [-p identifier] - add identifier to the Interest names before the numbers to avoid conflict
         [-a] - allow routers to return ping Data from cache (allowed by default if NDNx version < 0.8.0)
         [-t] - print timestamp
-        [-h] - print this message and exit
-
-
-    Usage: ndn-tlv-pingserver ndnx:/name/prefix [options]
-    Starts a NDN ping server that responds to Interests with name ndnx:/name/prefix/ping/number.
-        [-x freshness] - set FreshnessSeconds
         [-h] - print this message and exit
 
 
@@ -59,7 +59,7 @@ Start the ndnd-tlv daemon
 
 Start ping server
 
-        ndn-tlv-pingserver /test/pingserver
+        ndnpingserver /test/pingserver
 
 __ON MACHINE #2__
 
@@ -69,6 +69,6 @@ Start the ndnd-tlv daemon
 
 Start the ping client
         
-        ndn-tlv-ping /test/pingserver
+        ndnping /test/pingserver
 
 * Use command line options shown above to adjust ping configuration.

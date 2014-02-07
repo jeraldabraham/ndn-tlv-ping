@@ -12,14 +12,14 @@ def configure(conf):
 def build (bld):
     bld.program (
         features = 'cxx',
-        target   = 'ndn-tlv-ping',
-        source   = 'ndn-tlv-ping.cpp',
+        target   = 'ndnping',
+        source   = 'ndnping.cpp',
         use      = 'NDN_CPP',
         )
 
     bld.program (
         features = 'cxx',
-        target   = 'ndn-tlv-pingserver',
-        source   = 'ndn-tlv-pingserver.cpp',
+        target   = 'ndnpingserver',
+        source   = 'ndnpingserver.cpp',
         use      = 'NDN_CPP',
         )

@@ -13,13 +13,13 @@ def build (bld):
     bld.program (
         features = 'cxx',
         target   = 'ndnping',
-        source   = 'ndnping.cpp',
+        source   = 'ndn-tlv-ping.cpp',
         use      = 'NDN_CPP',
         )
 
     bld.program (
         features = 'cxx',
         target   = 'ndnpingserver',
-        source   = 'ndnpingserver.cpp',
+        source   = 'ndn-tlv-pingserver.cpp',
         use      = 'NDN_CPP',
         )

@@ -167,29 +167,30 @@ public:
 
   void
   onData( ndn::Face &face,
-          const ndn::ptr_lib::shared_ptr<const ndn::Interest> &interest,
-          const ndn::ptr_lib::shared_ptr<ndn::Data> &data )
+          const ndn::Interest& interest,
+          ndn::Data& data )
   {
     std::string pingReference;
     double roundTripTime;
     boost::posix_time::time_duration roundTripDuration;
-    pingReference = interest->getName().toUri();
+    pingReference = interest.getName().toUri();
     pingsReceived_++;
     pingStatistics_.receivedPings_++;
     roundTripDuration = boost::posix_time::microsec_clock::local_time() - sentTimes_[pingReference];
     roundTripTime = roundTripDuration.total_microseconds()/1000.0;
     std::cout << "Content From " << prefix_;
-    std::cout << " - Ping Reference = " << interest->getName().getSubName(interest->getName().size()-1).toUri().substr(1);
+    std::cout << " - Ping Reference = " << interest.getName().getSubName(interest.getName().size()-1).toUri().substr(1);
     std::cout << "  \t- Round Trip Time = " << roundTripTime << " ms" << std::endl;
     sentTimes_.erase(sentTimes_.find(pingReference));
     pingStatistics_.addToPingStatistics(roundTripTime);
   }
 
   void
-  onTimeout( ndn::Face &face, const ndn::ptr_lib::shared_ptr<const ndn::Interest> &interest )
+  onTimeout( ndn::Face &face,
+             const ndn::Interest& interest )
   {
     std::cout << "Timeout From " << prefix_;
-    std::cout << " - Ping Reference = " << interest->getName().getSubName(interest->getName().size()-1).toUri().substr(1);
+    std::cout << " - Ping Reference = " << interest.getName().getSubName(interest.getName().size()-1).toUri().substr(1);
     std::cout << std::endl;
   }
 
@@ -256,8 +257,8 @@ public:
        try {
         sentTimes_[pingPacketName.toUri()] = boost::posix_time::microsec_clock::local_time();
         face_.expressInterest(interest,
-                              ndn::func_lib::bind(&NdnTlvPing::onData, this, boost::ref(face_), _1, _2),
-                              ndn::func_lib::bind(&NdnTlvPing::onTimeout, this, boost::ref(face_), _1));
+                              func_lib::bind(&NdnTlvPing::onData, this, boost::ref(face_), _1, _2),
+                              func_lib::bind(&NdnTlvPing::onTimeout, this, boost::ref(face_), _1));
         deadlineTimer->expires_at(deadlineTimer->expires_at() +
                                   boost::posix_time::millisec((int)(pingInterval_*1000)));
         deadlineTimer->async_wait(boost::bind(&NdnTlvPing::performPing,

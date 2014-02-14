@@ -9,7 +9,6 @@
 
 #include <ndn-cpp-dev/name.hpp>
 #include <ndn-cpp-dev/face.hpp>
-#include <ndn-cpp-dev/node.hpp>
 #include <ndn-cpp-dev/security/key-chain.hpp>
 
 using namespace ndn;
@@ -64,13 +63,13 @@ public:
   }
 
   void
-  onInterest( const ptr_lib::shared_ptr<const Name> &name, const ptr_lib::shared_ptr<const Interest> &interest )
+  onInterest( const Name& name, const Interest& interest )
   {
     Name interestName;
-    interestName = interest->getName();
+    interestName = interest.getName();
     if ( name_.isPrefixOf(interestName) ) {
       std::cout << "Interest Received";
-      std::cout << " - Ping Reference = " << interestName.getSubName(interest->getName().size()-1).toUri().substr(1);
+      std::cout << " - Ping Reference = " << interestName.getSubName(interest.getName().size()-1).toUri().substr(1);
       std::cout << std::endl;
       char responseContent[] = "NDN TLV Ping Response";
       Data data(interestName);
@@ -83,7 +82,7 @@ public:
   }
 
   void
-  onRegisterFailed( const ptr_lib::shared_ptr<const Name>& )
+  onRegisterFailed( const ndn::Name& prefix, const std::string& reason )
   {
     std::cerr << "ERROR: Failed to register prefix in local hub's daemon" << std::endl;
     face_.shutdown();
@@ -110,7 +109,7 @@ public:
     name_.append("ping");
     face_.setInterestFilter(name_,
                             func_lib::bind(&NdnTlvPingServer::onInterest, this, _1, _2),
-                            func_lib::bind(&NdnTlvPingServer::onRegisterFailed, this, _1));
+                            func_lib::bind(&NdnTlvPingServer::onRegisterFailed, this, _1, _2));
     try {
       face_.processEvents();
     }

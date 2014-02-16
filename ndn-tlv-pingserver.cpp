@@ -17,13 +17,12 @@ class NdnTlvPingServer
 {
 public:
 
-  NdnTlvPingServer( char* programName )
+  NdnTlvPingServer( char* programName ) : ioService_(new boost::asio::io_service), face_(ioService_)
   {
     freshnessSeconds_ = getMinimumFreshnessSeconds();
     totalPings_ = 0;
     programName_ = programName;
-    ioService_ = ptr_lib::make_shared<boost::asio::io_service>();
-    face_ = Face(ioService_);
+    //ioService_ = ptr_lib::make_shared<boost::asio::io_service>();
   }
 
   NdnTlvPingServer()
@@ -124,9 +123,9 @@ private:
   int freshnessSeconds_;
   char *programName_;
   char *prefix_;
+  ptr_lib::shared_ptr<boost::asio::io_service> ioService_;
   Face face_;
   Name name_;
-  ptr_lib::shared_ptr<boost::asio::io_service> ioService_;
 };
 
 int main( int argc, char* argv[] )

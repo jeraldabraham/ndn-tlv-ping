@@ -20,7 +20,7 @@ class NdnTlvPing
 {
 public:
 
-  NdnTlvPing( char* programName )
+  NdnTlvPing( char* programName ) : ioService_(new boost::asio::io_service), face_(ioService_)
   {
     allowCaching_ = false;
     printTimestamp_ = false;
@@ -32,8 +32,6 @@ public:
     clientIdentifier_ = 0;
     pingTimeoutThreshold_ = getPingTimeoutThreshold();
     programName_ = programName;
-    ioService_ = ptr_lib::make_shared<boost::asio::io_service>();
-    face_ = Face(ioService_);
   }
 
   class PingStatistics

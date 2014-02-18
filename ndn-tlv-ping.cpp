@@ -181,6 +181,8 @@ public:
     std::cout << "  \t- Round Trip Time = " << roundTripTime << " ms" << std::endl;
     sentTimes_.erase(sentTimes_.find(pingReference));
     pingStatistics_.addToPingStatistics(roundTripTime);
+    if (pingsSent_ == totalPings_)
+      signalHandler();
   }
 
   void
@@ -190,6 +192,8 @@ public:
     std::cout << "Timeout From " << prefix_;
     std::cout << " - Ping Reference = " << interest.getName().getSubName(interest.getName().size()-1).toUri().substr(1);
     std::cout << std::endl;
+    if (pingsSent_ == totalPings_)
+      signalHandler();
   }
 
   void
@@ -296,6 +300,7 @@ public:
                                          &deadlineTimer));
     try {
       face_.processEvents();
+      std::cout << "Completed" << std::endl;
     }
     catch(std::exception &e) {
         std::cerr << "ERROR: " << e.what() << std::endl;
